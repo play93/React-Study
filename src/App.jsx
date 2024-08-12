@@ -1,35 +1,102 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react"
+import { useState } from "react"
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const style ={
+    display:"flex",
+    gap:"12px",
+    padding:"50px",
+  }
+
+
+  const [users, setUsers] = useState([
+    {
+      id: new Date().getTime(),
+      age: 30,
+      name: "송중기"
+    },
+    {
+      id: new Date().getTime() +1,
+      age: 24,
+      name: "송강"
+    },
+    {
+      id: new Date().getTime() +2,
+      age: 21,
+      name: "김유정"
+    },
+    {
+      id: new Date().getTime() +3,
+      age: 29,
+      name: "구교환"
+    }
+  ]);
+
+  console.log(users);
+
+  const [age, setAge] = useState(0);
+  const [name, setName] = useState("");
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <input 
+      type="number"
+      value={age}
+      onChange={(e) => {
+        setAge(e.target.value);
+      }}  
+    />
+    <input 
+      type="text"
+      value={name}
+      onChange={(e) => {
+        setName(e.target.value);
+      }}  
+    />
+    <button 
+    onClick={()=>{
+      console.log("age => ", age);
+      console.log("name => ", name);
+
+      const newUser = {
+        id: new Date().getTime(),
+        age: age,
+        name: name,
+      }
+    }}>
+      추가
+    </button>
+    <div style={style}>
+      {users.map(function(user) {
+          return (
+            <User key={user.id} user={user}/>
+          )
+        })
+      }
+    </div>
     </>
   )
 }
 
 export default App
+
+const User = ({user}) => {
+  
+  const squareStyle = {
+    width: "100px",
+    height: "100px",
+    border: "1px solid green",
+    borderRadius: "10px",
+    display: "flex",
+    alignItems:"center",
+    justifyContent:"center",
+  }
+
+  const { age, name } = user;
+
+  return (
+  <div style={squareStyle}>
+    {age}살-{name}
+  </div>
+)
+}
