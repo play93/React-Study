@@ -1,8 +1,56 @@
-# React + Vite
+## 컴포넌트
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- 재사용이 가능한 개별적인 코드 조각
 
-Currently, two official plugins are available:
+#### 함수형 컴포넌트 (권장 - 쉽고 확장성 큼)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+> function키워드를 이용해서 인풋 (props로 받음) 과 아웃풋 ({props.name} <= HTML처럼 생긴 컴포넌트의 구조) 을 내보내는 것
+
+#### 클래스형 컴포넌트
+
+> 지금은 클래스형 컴포넌트를 사용해 새롭게 프로젝트를 만드는 경우는 드물다. render()메서드를 이용해 엘리먼트를 반환.
+
+```
+import하는 영역
+
+const App = () => {
+//자바 스크립트를 쓸 수 있는 영역
+
+return(
+  <div>
+    { JSX를 쓸 수 있는 영역 }
+</div>
+)}
+
+//만든 컴포넌트를 밖으로 내보내는 영역
+export default App;
+```
+
+App.jsx에 모든 코드를 넣으면 너무 길어져서 보기 힘들어지므로 import / export를 이용해 컴포넌트를 나누어 각각의 jsx파일에서 공유하는 방식을 사용해야함
+
+#### 컴포넌트 생성시 주의사항
+
+> 컴포넌트 파일을 만들 때, 파일명은 대문자로 시작하는 파스칼 케이스 폴더는 소문자로 시작하는 카멜케이스로 작성
+
+<br>
+
+## JSX문법
+
+문자열도, HTML도 아님!
+
+```
+const apple = <h1>furit!</h1>
+
+```
+
+#### "자바스크립트를 확장한 문법"
+
+- jsx에서 쓰는 <div></div> 는 DOM요소가 아닌 react요소
+- jsx 문법은 babel이라는 도구를 이용해 자바스크립트로 변환됨
+
+#### 주의사항
+
+1. 하나의 엘리먼트만 반환해야 함<br>
+2. 자바스크립트 문법이 필요하면 중괄호를 넣어줘야함.
+3. class를 주고 싶을 땐 className=""으로 작성해야 함
+4. 자바스크립트 객체형식으로 스타일 지정함 => style={{ color: "orange", fontSize:"10px", }}
