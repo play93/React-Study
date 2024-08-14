@@ -54,3 +54,112 @@ const apple = <h1>furit!</h1>
 2. 자바스크립트 문법이 필요하면 중괄호를 넣어줘야함.
 3. class를 주고 싶을 땐 className=""으로 작성해야 함
 4. 자바스크립트 객체형식으로 스타일 지정함 => style={{ color: "orange", fontSize:"10px", }}
+
+<br>
+
+## Props
+
+- 컴포넌트끼리 정보를 교환하는 방식
+- 위에서 아래로만 흐름 (부모 => 자식 O, 자식 => 부모 X)
+- 읽기전용으로 취급
+
+#### -명시적으로 부모 컴포넌트를 자식 컴포넌트로 넘겨주는 방법
+
+```
+//부모컴포넌트
+//명시적으로 lastName을 Child에 보내줌
+function Parents() {
+	const lastName = "홍";
+    return <Child lastName={lastName} />;
+};
+
+```
+
+```
+//자식컴포넌트
+function Child(props) { //props는 임의로 지정한 명칭이며, 다른 명칭으로 변경가능
+	console.log("props => ", props); //props => lastName:"홍"
+
+    const name = "길동";
+    return (<div>
+    	<p>{`내 이름은 ${props.lastName}${name}입니다`}</p>
+    </div>);
+};
+
+```
+
+#### -children으로 부모 컴포넌트를 자식 컴포넌트로 넘겨주는 방법
+
+```
+//부모컴포넌트
+const Parents = () => {
+	return <Child>홍</Child>;
+};
+
+```
+
+```
+//자식컴포넌트
+const Child = (props) => {
+	return <div>{props.children}길동</div>
+}
+
+```
+
+- children의 용도
+  layout컴포넌트(배경)를 만들때 주로 사용
+
+#### -구조분해할당을 이용해 props.lastName을 줄여쓸 수도 있음
+
+(1)
+
+```
+function Child(props) {
+	const { lastName } = props;
+
+    const name = "길동";
+    return (<div>
+    	<p>{`내 이름은 ${lastName}${name}입니다`}</p>
+    </div>);
+};
+
+```
+
+(2)
+
+```
+function Child({ lastName }) {
+	const name = "길동";
+    return (<div>
+    	<p>{`내 이름은 ${lastName}${name}입니다`}</p>
+    </div>);
+};
+
+```
+
+만약에 자식컴포넌트에서 lastName을 받을거라고 정의를 했는데 <br>
+실수로! 부모컴포넌트에서 lastName을 보내지 않았을 경우!
+<br><br>
+=> return <Child lastName={lastName} /> 에서 그냥 <Cild />만 한 경우를 대비해
+<br><br>
+자식컴포넌트에서 props에 기초값을 세팅해놓을 수 잇음
+
+```
+function Child({ lastName = "미입력" }) {
+	const name = "길동";
+    return (<div>
+    	<p>{`내 이름은 ${lastName}${name}입니다`}</p>
+    </div>);
+};
+
+```
+
+이렇게 기초값을 설정해두면 "내 이름은 미입력길동입니다"라고 작성되어 성을 넣지 않았음을 바로 알 수 있음!
+<br><br>
+
+#### 중요한 것
+
+1. 부모로부터 자식으로 값을 내려줄 땐 props를 사용한다
+2. 자식은 하나의 객체로 props의 값을 받는다 (children포함)
+3. "props."을 일일히 써주기 귀찮으니 구조분해할당을 해 변수로 활용할 수 있다
+4. 근데 이 변수가 부모에 세팅이 안되어있는 경우 기초값을 이용해 예외사항을 방지할 수 있다
